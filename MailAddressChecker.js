@@ -1,6 +1,5 @@
 // noinspection JSUnusedGlobalSymbols
 export default addr => {
-  Object.prototype.IS = function(Instance) {return this.constructor === Instance;};
   addr = addr && addr.length && addr.trim && addr.trim() || `unknown@unknown.unknown`;
   const addrSplitted = addr.split(`@`);
   const [localPart, domain] = addrSplitted;
@@ -31,7 +30,7 @@ export default addr => {
   const createCheck = (err, msg, str2Check) =>
     err && {
       error: err,
-      get message() { return this.error && msg.IS(Function) ? msg(str2Check) : msg; }
+      get message() { return this.error && msg.constructor === Function ? msg(str2Check) : msg; }
     } || {};
 
   let result = Object.entries({
