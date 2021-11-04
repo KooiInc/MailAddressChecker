@@ -43,19 +43,19 @@ export default addr => {
   // local part error check if applicable
   result = addrSplitted.length === 2
     ? Object.entries({
-      [startsOrEndsWithDot]: createCheck(checkRE[startsOrEndsWithDot].test(localPart), errorMsgFactory[startsOrEndsWithDot](l)),
-      [doubleDot]: createCheck(checkRE[doubleDot].test(localPart), errorMsgFactory[doubleDot](l)),
-      [noValidStartChr]: createCheck(!checkRE[noValidStartChr].test(localPart), errorMsgFactory[noValidStartChr](l)),
-      [invalidChrs]: createCheck(checkRE[invalidChrs][l].test(localPart), errorMsgFactory[invalidChrs](l), localPart)
+        [startsOrEndsWithDot]: createCheck(checkRE[startsOrEndsWithDot].test(localPart), errorMsgFactory[startsOrEndsWithDot](l)),
+        [doubleDot]: createCheck(checkRE[doubleDot].test(localPart), errorMsgFactory[doubleDot](l)),
+        [noValidStartChr]: createCheck(!checkRE[noValidStartChr].test(localPart), errorMsgFactory[noValidStartChr](l)),
+        [invalidChrs]: createCheck(checkRE[invalidChrs][l].test(localPart), errorMsgFactory[invalidChrs](l), localPart)
     }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, result ) : result;
   // domain error checks (if applicable)
   result = domain && addrSplitted.length === 2
     ? Object.entries({
-      [startsOrEndsWithDot]: createCheck(checkRE[startsOrEndsWithDot].test(domain), errorMsgFactory[startsOrEndsWithDot](d)),
-      [doubleDot]: createCheck(checkRE[doubleDot].test(domain), errorMsgFactory[doubleDot](d)),
-      [insufficientDomain]: createCheck(domain.split(/\./).length < 2, errorMsgFactory[insufficientDomain](d)),
-      [noValidStartChr]: createCheck(!checkRE[noValidStartChr].test(domain), errorMsgFactory[noValidStartChr](d)),
-      [invalidChrs]: createCheck(checkRE[invalidChrs][d].test(domain), errorMsgFactory[invalidChrs](d), domain),
+        [startsOrEndsWithDot]: createCheck(checkRE[startsOrEndsWithDot].test(domain), errorMsgFactory[startsOrEndsWithDot](d)),
+        [doubleDot]: createCheck(checkRE[doubleDot].test(domain), errorMsgFactory[doubleDot](d)),
+        [insufficientDomain]: createCheck(domain.split(/\./).length < 2, errorMsgFactory[insufficientDomain](d)),
+        [noValidStartChr]: createCheck(!checkRE[noValidStartChr].test(domain), errorMsgFactory[noValidStartChr](d)),
+        [invalidChrs]: createCheck(checkRE[invalidChrs][d].test(domain), errorMsgFactory[invalidChrs](d), domain),
     }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, result ) : result;
 
   if (result.length < 1) {
