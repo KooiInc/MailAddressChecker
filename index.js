@@ -1,5 +1,4 @@
-// noinspection JSUnusedGlobalSymbols
-export default addr => {
+const emailCheck = addr => {
   addr = addr && addr.length && addr.trim && addr.trim() || `unknown@unknown.unknown`;
   const addrSplitted = addr.split(`@`);
   const [localPart, domain] = addrSplitted;
@@ -65,3 +64,6 @@ export default addr => {
     : { error: true, message: `${addr} - ${nErrors}: ${
         result.map( (v, i) => `${i + 1}. ${v.message}`).join(`; `)}`, };
 };
+
+// noinspection JSUnusedGlobalSymbols
+export default emailCheck;
