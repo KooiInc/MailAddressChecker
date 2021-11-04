@@ -27,31 +27,37 @@ export default addr => {
     [noValidStartChr]: dl => `${dl} does not start with a valid character`,
     [invalidChrs]: dl => domain => `[${invalidChrsFound[dl](domain)}] not allowed in ${dl}`,
   };
-  const createCheck = (err, msg, str2Check) =>
-    err && {
+  const createCheck = (err, msg, str2Check) => err && {
       error: err,
       get message() { return this.error && msg.constructor === Function ? msg(str2Check) : msg; }
     } || {};
-
+  const checkRegExps = {
+    [startsOrEndsWithDot]: /\.$|^\./,
+    [doubleDot]: /\.{2,}/g,
+    [noValidStartChr]: /^[\p{L}]/ui,
+    [invalidChrs]: {
+      l: /[^\p{L}_.#\-\d+~|=!]+/uig,
+      d: /[^\p{L}_\-.]+/ui
+    }, };
   let result = Object.entries({
     // address error checks
     [noParam]: createCheck(addr === `unknown@unknown.unknown`, errorMsgFactory[noParam]()),
     [moreThanOneAt]: createCheck(addrSplitted.length > 2, errorMsgFactory[moreThanOneAt]()),
     [noDomain]: createCheck(!domain, errorMsgFactory[noDomain]()),
     // local part error check
-    [startsOrEndsWithDot]: createCheck(/\.$|^\./.test(localPart), errorMsgFactory[startsOrEndsWithDot](l)),
-    [doubleDot]: createCheck(/\.{2,}/g.test(localPart), errorMsgFactory[doubleDot](l)),
-    [noValidStartChr]: createCheck(!/^[\p{L}]/ui.test(localPart), errorMsgFactory[noValidStartChr](l)),
-    [invalidChrs]: createCheck(/[^\p{L}_.#\-\d+~|=!]+/uig.test(localPart), errorMsgFactory[invalidChrs](l), localPart),
+    [startsOrEndsWithDot]: createCheck(checkRegExps[startsOrEndsWithDot].test(localPart), errorMsgFactory[startsOrEndsWithDot](l)),
+    [doubleDot]: createCheck(checkRegExps[doubleDot].test(localPart), errorMsgFactory[doubleDot](l)),
+    [noValidStartChr]: createCheck(checkRegExps[noValidStartChr].test(localPart), errorMsgFactory[noValidStartChr](l)),
+    [invalidChrs]: createCheck(checkRegExps[invalidChrs][l].test(localPart), errorMsgFactory[invalidChrs](l), localPart),
   }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, []);
   // domain error checks (if applicable)
   result = domain
     ? Object.entries({
-      [startsOrEndsWithDot]: createCheck(/\.$|^\./.test(domain), errorMsgFactory[startsOrEndsWithDot](d)),
-      [doubleDot]: createCheck(/\.{2,}/g.test(domain), errorMsgFactory[doubleDot](d)),
+      [startsOrEndsWithDot]: createCheck(checkRegExps[startsOrEndsWithDot].test(domain), errorMsgFactory[startsOrEndsWithDot](d)),
+      [doubleDot]: createCheck(checkRegExps[doubleDot].test(domain), errorMsgFactory[doubleDot](d)),
       [insufficientDomain]: createCheck(domain.split(/\./).length < 2, errorMsgFactory[insufficientDomain](d)),
-      [noValidStartChr]: createCheck(!/^[\p{L}]/ui.test(domain), errorMsgFactory[noValidStartChr](d)),
-      [invalidChrs]: createCheck(/[^\p{L}_\-.]+/ui.test(domain), errorMsgFactory[invalidChrs](d), domain),
+      [noValidStartChr]: createCheck(checkRegExps[noValidStartChr].test(domain), errorMsgFactory[noValidStartChr](d)),
+      [invalidChrs]: createCheck(checkRegExps[invalidChrs][d].test(domain), errorMsgFactory[invalidChrs](d), domain),
     }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, result ) : result;
 
   if (result.length < 1) {
