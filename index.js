@@ -63,5 +63,5 @@ export default addr => {
   return result.length < 1
     ? { error: false, message: addr, }
     : { error: true, message: `${addr} - ${nErrors}: ${
-        result.map( (v, i) => `${i + 1}. ${v.message}`).join(`; `)}}`, };
+        result.map( (v, i) => `${i + 1}. ${v.message}`).join(`; `)}`, };
 };
