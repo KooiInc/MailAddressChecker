@@ -4,9 +4,10 @@ export default addr => {
   const addrSplitted = addr.split(`@`);
   const [localPart, domain] = addrSplitted;
   const [d, l, moreThanOneAt, noDomain, startsOrEndsWithDot, doubleDot,
-    insufficientDomain, noValidStartChr, invalidChrs, noParam, space] =
-    (`domain,local part,moreThanOneAt,noDomain,startsOrEndsWithDot,doubleDot,` +
-      `insufficientDomain,noValidStartChr,invalidChrs,noParam,space`).split(`,`);
+    insufficientDomain, noValidStartChr, invalidChrs, noParam, space, spacing] =
+    (`domain|local part|moreThanOneAt|noDomain|startsOrEndsWithDot|doubleDot|` +
+      `insufficientDomain|noValidStartChr|invalidChrs|noParam|space|space, tab or new line`)
+      .split(`|`);
   const checkRE = {
     [startsOrEndsWithDot]: /\.$|^\./,
     [doubleDot]: /\.{2,}/g,
@@ -17,8 +18,8 @@ export default addr => {
       [d]: /[^\p{L}_\-.]+/ui
     }, };
   const invalidChrsFound = {
-    [d]: str => str.match(checkRE[invalidChrs][d]).map(v => checkRE[space].test(v) ? `space, tab or new line` : v.trim()).join(`|`),
-    [l]: str => str.match(checkRE[invalidChrs][d]).map(v => checkRE[space].test(v) ? `space, tab or new line` : v.trim()).join(`|`),
+    [d]: str => str.match(checkRE[invalidChrs][d]).map(v => checkRE[space].test(v) ? spacing : v.trim()).join(`|`),
+    [l]: str => str.match(checkRE[invalidChrs][d]).map(v => checkRE[space].test(v) ? spacing : v.trim()).join(`|`),
   };
   const errorMsgFactory = {
     [noParam]: () => `*fatal* please provide an email address`,
