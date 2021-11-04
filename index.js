@@ -66,4 +66,4 @@ const emailCheck = addr => {
 };
 
 // noinspection JSUnusedGlobalSymbols
-export default emailCheck;
+export { emailCheck };
