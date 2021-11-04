@@ -32,15 +32,14 @@ export default addr => {
   };
   const createCheck = (err, msg, str2Check) => err && {
     error: err,
-    get message() { return this.error && msg.constructor === Function ? msg(str2Check) : msg; }
-  } || {};
+    get message() { return this.error && msg.constructor === Function ? msg(str2Check) : msg; } } || {};
+  // full address error checks
   let result = Object.entries({
-    // address error checks
     [noParam]: createCheck(addr === `unknown@unknown.unknown`, errorMsgFactory[noParam]()),
     [moreThanOneAt]: createCheck(addrSplitted.length > 2, errorMsgFactory[moreThanOneAt]()),
     [noDomain]: createCheck(!domain, errorMsgFactory[noDomain]())
   }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, [] );
-  // local part error check if applicable
+  // local part error checks if applicable
   result = addrSplitted.length === 2
     ? Object.entries({
         [startsOrEndsWithDot]: createCheck(checkRE[startsOrEndsWithDot].test(localPart), errorMsgFactory[startsOrEndsWithDot](l)),
