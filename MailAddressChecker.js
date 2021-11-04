@@ -6,7 +6,8 @@ export default addr => {
   const [d, l, moreThanOneAt, noDomain, startsOrEndsWithDot, doubleDot,
     insufficientDomain, noValidStartChr, invalidChrs, noParam, space, spacing] =
     (`domain|local part|moreThanOneAt|noDomain|startsOrEndsWithDot|doubleDot|` +
-      `insufficientDomain|noValidStartChr|invalidChrs|noParam|space|space, tab or new line`)
+      `insufficientDomain|noValidStartChr|invalidChrs|noParam|space|` +
+      `space, tab or new line`)
       .split(`|`);
   const checkRE = {
     [startsOrEndsWithDot]: /\.$|^\./,
