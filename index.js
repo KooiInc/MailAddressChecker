@@ -1,6 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 export default addr => {
-  addr = addr && addr.length && addr.trim && addr.trim() || `unknown@unknown.unknown`;
+  addr = addr && addr.length && addr.trim && addr.trim() || `invalid@input.info`;
   const addrSplitted = addr.split(`@`);
   const [localPart, domain] = addrSplitted;
   const [d, l, moreThanOneAt, noDomain, startsOrEndsWithDot, doubleDot,
@@ -37,7 +37,7 @@ export default addr => {
     get message() { return this.error && msg.constructor === Function ? msg(str2Check) : msg; } } || {};
   // full address error checks
   let result = Object.entries({
-    [noParam]: createCheck(addr === `unknown@unknown.unknown`, msgFactory[noParam]()),
+    [noParam]: createCheck(addr === `invalid@input.info`, msgFactory[noParam]()),
     [moreThanOneAt]: createCheck(addrSplitted.length > 2, msgFactory[moreThanOneAt]()),
     [noDomain]: createCheck(!domain, msgFactory[noDomain]())
   }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, [] );
