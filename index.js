@@ -1,5 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
-export default addr => {
+import cleanDiacrits from "./diacriticReplacer.js";
+const mailAddrCheck = (addr, noDiacrits) => {
   addr = addr && addr.length && addr.trim && addr.trim() || `invalid@input.info`;
   const addrSplitted = addr.split(`@`);
   const [localPart, domain] = addrSplitted;
@@ -61,8 +62,8 @@ export default addr => {
   let nErrors = `${result.length} ${result.length < 2 ? `error` : `errors`}`;
 
   return result.length < 1
-    ? { error: false, message: addr, }
-    : { error: true, message: `${addr} - ${nErrors}: ${
+    ? { error: false, message: noDiacrits ? cleanDiacrits(addr) : addr, }
+    : { error: true, message: `${noDiacrits ? cleanDiacrits(addr) : addr} - ${nErrors}: ${
         result.map( (v, i) => `${i + 1}. ${v.message}`).join(`; `)}`, };
 };
-
+export default mailAddrCheck;
