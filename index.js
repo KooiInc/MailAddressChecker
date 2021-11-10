@@ -1,5 +1,5 @@
 // noinspection JSUnusedGlobalSymbols
-import cleanDiacrits from "diacriticReplacer.js";
+import cleanDiacrits from "./diacriticReplacer.js";
 const mailAddrCheck = (addr, noDiacrits) => {
   addr = addr && addr.length && addr.trim && addr.trim() || `invalid@input.info`;
   const addrSplitted = addr.split(`@`);
