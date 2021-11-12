@@ -1,5 +1,5 @@
 // noinspection JSUnusedGlobalSymbols,DuplicatedCode
-// ^ for webstorm
+// ^ for webstorm, may be removed
 const cleanDiacritics = require("./diacriticReplacer.js");
 module.exports = validateEMailAddress;
 
