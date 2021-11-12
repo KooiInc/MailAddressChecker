@@ -35,7 +35,7 @@ function mailAddrCheck(addr, removeDiacritics) {
     [doubleDot]: dl => `${dl} contains consecutive dots (.)`,
     [insufficientDomain]: dl => `${dl} part should be at least a subdomain of a top level domain`,
     [noValidStartChr]: dl => `${dl} does not start with a valid character`,
-    [invalidChrs]: dl => domainOrLocal => `${dl} [${invalidChrsFound[dl](domainOrLocal)}] not allowed in ${dl}`,
+    [invalidChrs]: dl => domainOrLocal => `${dl} [${invalidChrsFound[dl](domainOrLocal)}] not allowed`,
   };
   const createCheck = (err, msg, str2Check) => err && {
     error: err,
