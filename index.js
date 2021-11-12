@@ -1,23 +1,10 @@
 // noinspection JSUnusedGlobalSymbols
 // ^ for webstorm
+const { cleanDiacritics } = require("./diacriticReplacer.js");
+module.exports = factory(cleanDiacritics);
 
-await exprt(factory);
-
-async function exprt(factory) {
-  if (typeof module === 'object' && module.exports) {
-    const { cleanDiacritics } = require("./diacriticReplacer.js");
-    module.exports = factory(cleanDiacritics);
-  }
-  if (typeof self !== undefined) {
-    await import("./diacriticReplacer.js")
-      .then(module => self.returnExports = factory(module.default));
-  }
-}
-
-function factory(cleaner) {
-  const cleanDiacritics = cleaner;
-
-  return function mailAddrCheck(addr, removeDiacritics) {
+function factory(cleanDiacritics) {
+  return function(addr, removeDiacritics) {
     addr = addr && addr.length && addr.trim && addr.trim() || `invalid@input.info`;
     const addrSplitted = addr.split(`@`);
     const [localPart, domain] = addrSplitted;

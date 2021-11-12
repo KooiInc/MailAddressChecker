@@ -1,16 +1,6 @@
 //export default clean;
 const mappings = getDiacrits();
-
-function exprt(factory) {
-  if (typeof module === 'object' && module.exports) {
-    module.exports = factory();
-  }
-  if (typeof self !== undefined) {
-    self.returnExports = factory();
-  }
-}
-
-exprt(factory);
+module.exports = factory();
 
 function factory() {
   return function(text) {
