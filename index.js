@@ -1,16 +1,16 @@
 // noinspection JSUnusedGlobalSymbols
 // ^ for webstorm
 
-exprt(factory);
+await exprt(factory);
 
-function exprt(factory) {
+async function exprt(factory) {
   if (typeof module === 'object' && module.exports) {
     const { cleanDiacritics } = require("./diacriticReplacer.js");
     module.exports = factory(cleanDiacritics);
   }
   if (typeof self !== undefined) {
-    import cleanDiacritics from "./diacriticReplacer.js";
-    self.returnExports = factory(cleanDiacritics);
+    await import("./diacriticReplacer.js")
+      .then(module => self.returnExports = factory(module.default));
   }
 }
 
