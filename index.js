@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols,DuplicatedCode
 // ^ for webstorm
 const { cleanDiacritics } = require("./diacriticReplacer.js");
-module.exports = { createAndValidate };
+module.exports = { validateEMailAddress: createAndValidate };
 
 function createAndValidate(addr, removeDiacritics) {
   addr = addr && addr.length && addr.trim && addr.trim() || `invalid@input.info`;
