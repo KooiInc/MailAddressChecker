@@ -4,7 +4,8 @@
   "description": "A small library to check mail address validity",
   "main": "MailAddresChecker.js",
   "devDependencies": {
-    "esbuild": "^0.13.12"
+    "esbuild": "^0.13.12",
+    "tinyify": "^3.0.0"
   },
   "scripts": {
     "build": "node compile.js"
