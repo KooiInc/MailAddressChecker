@@ -6,7 +6,7 @@ function mailAddrCheck(addr, removeDiacritics) {
   const [localPart, domain] = addrSplitted;
   const [d, l, moreThanOneAt, noDomain, startsOrEndsWithDot, doubleDot,
     insufficientDomain, noValidStartChr, invalidChrs, noParam, space, spacing] =
-    (`domain|local part|moreThanOneAt|noDomain|startsOrEndsWithDot|doubleDot|` +
+    (`Domain|Local part|moreThanOneAt|noDomain|startsOrEndsWithDot|doubleDot|` +
       `insufficientDomain|noValidStartChr|invalidChrs|noParam|space|` +
       `space, tab or new line`)
       .split(`|`);
@@ -27,10 +27,10 @@ function mailAddrCheck(addr, removeDiacritics) {
     [noParam]: () => `Please provide an email address`,
     [moreThanOneAt]: () => `More than one @ in given address`,
     [noDomain]: () => `No recognizable domain part (lacking domein/@ or too many @ in given address)`,
-    [startsOrEndsWithDot]: dl => `${dl} Can't start or end with a dot (.)`,
-    [doubleDot]: dl => `${dl} Contains consecutive dots (.)`,
-    [insufficientDomain]: dl => `${dl} Part should be at least a subdomain of a top level domain`,
-    [noValidStartChr]: dl => `${dl} Does not start with a valid character`,
+    [startsOrEndsWithDot]: dl => `${dl} can't start or end with a dot (.)`,
+    [doubleDot]: dl => `${dl} contains consecutive dots (.)`,
+    [insufficientDomain]: dl => `${dl} part should be at least a subdomain of a top level domain`,
+    [noValidStartChr]: dl => `${dl} does not start with a valid character`,
     [invalidChrs]: dl => domain => `[${invalidChrsFound[dl](domain)}] Not allowed in ${dl}`,
   };
   const createCheck = (err, msg, str2Check) => err && {
