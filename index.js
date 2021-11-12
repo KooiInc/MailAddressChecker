@@ -1,6 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
-import cleanDiacrits from "./diacriticReplacer.js";
-const mailAddrCheck = (addr, noDiacrits) => {
+import cleanDiacritics from "./diacriticReplacer.js";
+function mailAddrCheck(addr, removeDiacritics) {
   addr = addr && addr.length && addr.trim && addr.trim() || `invalid@input.info`;
   const addrSplitted = addr.split(`@`);
   const [localPart, domain] = addrSplitted;
@@ -24,14 +24,14 @@ const mailAddrCheck = (addr, noDiacrits) => {
     [l]: str => str.match(REs[invalidChrs][d]).map(v => REs[space].test(v) ? spacing : v.trim()).join(`|`),
   };
   const msgFactory = {
-    [noParam]: () => `*fatal* please provide an email address`,
-    [moreThanOneAt]: () => `*fatal* more than one @ in given address`,
-    [noDomain]: () => `*fatal* no domain part (lacking @ in given address)`,
-    [startsOrEndsWithDot]: dl => `${dl} can't start or end with a dot (.)`,
-    [doubleDot]: dl => `${dl} contains consecutive dots (.)`,
-    [insufficientDomain]: dl => `${dl} part should be at least a subdomain of a top level domain`,
-    [noValidStartChr]: dl => `${dl} does not start with a valid character`,
-    [invalidChrs]: dl => domain => `[${invalidChrsFound[dl](domain)}] not allowed in ${dl}`,
+    [noParam]: () => `Please provide an email address`,
+    [moreThanOneAt]: () => `More than one @ in given address`,
+    [noDomain]: () => `No recognizable domain part (lacking domein/@ or too many @ in given address)`,
+    [startsOrEndsWithDot]: dl => `${dl} Can't start or end with a dot (.)`,
+    [doubleDot]: dl => `${dl} Contains consecutive dots (.)`,
+    [insufficientDomain]: dl => `${dl} Part should be at least a subdomain of a top level domain`,
+    [noValidStartChr]: dl => `${dl} Does not start with a valid character`,
+    [invalidChrs]: dl => domain => `[${invalidChrsFound[dl](domain)}] Not allowed in ${dl}`,
   };
   const createCheck = (err, msg, str2Check) => err && {
     error: err,
@@ -42,28 +42,34 @@ const mailAddrCheck = (addr, noDiacrits) => {
     [moreThanOneAt]: createCheck(addrSplitted.length > 2, msgFactory[moreThanOneAt]()),
     [noDomain]: createCheck(!domain, msgFactory[noDomain]())
   }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, [] );
-  // local part error checks if applicable
-  result = addrSplitted.length === 2
-    ? Object.entries({
-      [startsOrEndsWithDot]: createCheck(REs[startsOrEndsWithDot].test(localPart), msgFactory[startsOrEndsWithDot](l)),
-      [doubleDot]: createCheck(REs[doubleDot].test(localPart), msgFactory[doubleDot](l)),
-      [noValidStartChr]: createCheck(!REs[noValidStartChr].test(localPart), msgFactory[noValidStartChr](l)),
-      [invalidChrs]: createCheck(REs[invalidChrs][l].test(localPart), msgFactory[invalidChrs](l), localPart)
-    }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, result ) : result;
-  // domain error checks (if applicable)
-  result = domain && addrSplitted.length === 2
-    ? Object.entries({
-      [startsOrEndsWithDot]: createCheck(REs[startsOrEndsWithDot].test(domain), msgFactory[startsOrEndsWithDot](d)),
-      [doubleDot]: createCheck(REs[doubleDot].test(domain), msgFactory[doubleDot](d)),
-      [insufficientDomain]: createCheck(domain.split(/\./).length < 2, msgFactory[insufficientDomain](d)),
-      [noValidStartChr]: createCheck(!REs[noValidStartChr].test(domain), msgFactory[noValidStartChr](d)),
-      [invalidChrs]: createCheck(REs[invalidChrs][d].test(domain), msgFactory[invalidChrs](d), domain),
-    }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, result ) : result;
-  let nErrors = `${result.length} ${result.length < 2 ? `error` : `errors`}`;
+  const fatal =  result.length > 0;
+  // nothing fatal occured, so more checks
+  if (!fatal) {
+    // local part error checks if applicable
+    result = localPart
+      ? Object.entries({
+        [startsOrEndsWithDot]: createCheck(REs[startsOrEndsWithDot].test(localPart), msgFactory[startsOrEndsWithDot](l)),
+        [doubleDot]: createCheck(REs[doubleDot].test(localPart), msgFactory[doubleDot](l)),
+        [noValidStartChr]: createCheck(!REs[noValidStartChr].test(localPart), msgFactory[noValidStartChr](l)),
+        [invalidChrs]: createCheck(REs[invalidChrs][l].test(localPart), msgFactory[invalidChrs](l), localPart)
+      }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, result ) : result;
+    // domain error checks (if applicable)
+    result = domain
+      ? Object.entries({
+        [startsOrEndsWithDot]: createCheck(REs[startsOrEndsWithDot].test(domain), msgFactory[startsOrEndsWithDot](d)),
+        [doubleDot]: createCheck(REs[doubleDot].test(domain), msgFactory[doubleDot](d)),
+        [insufficientDomain]: createCheck(domain.split(/\./).length < 2, msgFactory[insufficientDomain](d)),
+        [noValidStartChr]: createCheck(!REs[noValidStartChr].test(domain), msgFactory[noValidStartChr](d)),
+        [invalidChrs]: createCheck(REs[invalidChrs][d].test(domain), msgFactory[invalidChrs](d), domain),
+      }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, result ) : result;
+  }
+
+  let nErrors = fatal ? `fatal error(s) occured` : `${result.length} ${result.length < 2 ? `error` : `errors`}`;
 
   return result.length < 1
-    ? { error: false, message: noDiacrits ? cleanDiacrits(addr) : addr, }
-    : { error: true, message: `${noDiacrits ? cleanDiacrits(addr) : addr} - ${nErrors}: ${
-        result.map( (v, i) => `${i + 1}. ${v.message}`).join(`; `)}`, };
+    ? { error: false, validatedAddress: removeDiacritics ? cleanDiacritics(addr) : addr, }
+    : { error: true,
+      validatedAddress: `${removeDiacritics ? cleanDiacritics(addr) : addr} - ${nErrors}:`,
+      errors: result.map( v => v.message ) };
 };
 export default mailAddrCheck;
