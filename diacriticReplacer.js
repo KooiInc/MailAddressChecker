@@ -6,7 +6,7 @@ function exprt(factory) {
     module.exports = factory();
   }
   if (typeof self !== undefined) {
-    export default factory();
+    self.returnExports = factory();
   }
 }
 

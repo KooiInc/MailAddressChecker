@@ -10,7 +10,7 @@ function exprt(factory) {
   }
   if (typeof self !== undefined) {
     import cleanDiacritics from "./diacriticReplacer.js";
-    export default factory(cleanDiacritics);
+    self.returnExports = factory(cleanDiacritics);
   }
 }
 
