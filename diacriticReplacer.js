@@ -1,15 +1,13 @@
 //export default clean;
 const mappings = getDiacrits();
-module.exports = factory();
+module.exports = { cleanDiacritics: replacer };
 
-function factory() {
-  return function(text) {
-      const replace = refinedText => refinedText
-        ? refinedText.replace(/[^\u0000-\u007E]/g, a => mappings[a] || a)
-        : refinedText;
+function replacer(text) {
+  const replace = str2Convert => str2Convert
+    ? str2Convert.replace(/[^\u0000-\u007E]/g, a => mappings[a] || a)
+    : str2Convert;
 
-      return replace(text);
-    }
+  return replace(text);
 }
 
 function getDiacrits() {
