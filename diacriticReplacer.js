@@ -1,13 +1,25 @@
+//export default clean;
 const mappings = getDiacrits();
 
-export default clean;
+function exprt(factory) {
+  if (typeof module === 'object' && module.exports) {
+    module.exports = factory();
+  }
+  if (typeof self !== undefined) {
+    export default factory();
+  }
+}
 
-function clean(text) {
-  const replace = refinedText => refinedText
-    ? refinedText.replace(/[^\u0000-\u007E]/g, a => mappings[a] || a)
-    : refinedText;
+exprt(factory);
 
-  return replace(text);
+function factory() {
+  return function(text) {
+      const replace = refinedText => refinedText
+        ? refinedText.replace(/[^\u0000-\u007E]/g, a => mappings[a] || a)
+        : refinedText;
+
+      return replace(text);
+    }
 }
 
 function getDiacrits() {
