@@ -1,6 +1,6 @@
 //export default clean;
 const mappings = getDiacrits();
-module.exports = { cleanDiacritics: replacer };
+module.exports = replacer;
 
 function replacer(text) {
   const replace = str2Convert => str2Convert
