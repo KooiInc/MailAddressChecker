@@ -1,12 +1,15 @@
 // noinspection JSUnusedGlobalSymbols
+// ^ for webstorm
 import cleanDiacritics from "./diacriticReplacer.js";
+export default mailAddrCheck;
+
 function mailAddrCheck(addr, removeDiacritics) {
   addr = addr && addr.length && addr.trim && addr.trim() || `invalid@input.info`;
   const addrSplitted = addr.split(`@`);
   const [localPart, domain] = addrSplitted;
   const [d, l, moreThanOneAt, noDomain, startsOrEndsWithDot, doubleDot,
     insufficientDomain, noValidStartChr, invalidChrs, noParam, space, spacing] =
-    (`Domain|Local part|moreThanOneAt|noDomain|startsOrEndsWithDot|doubleDot|` +
+    (`Domain|Name part|moreThanOneAt|noDomain|startsOrEndsWithDot|doubleDot|` +
       `insufficientDomain|noValidStartChr|invalidChrs|noParam|space|` +
       `space, tab or new line`)
       .split(`|`);
@@ -18,7 +21,8 @@ function mailAddrCheck(addr, removeDiacritics) {
     [invalidChrs]: {
       [l]: /[^\p{L}_.#\-\d+~|=!]+/uig,
       [d]: /[^\p{L}_\-.]+/ui
-    }, };
+    },
+  };
   const invalidChrsFound = {
     [d]: str => str.match(REs[invalidChrs][d]).map(v => REs[space].test(v) ? spacing : v.trim()).join(`|`),
     [l]: str => str.match(REs[invalidChrs][d]).map(v => REs[space].test(v) ? spacing : v.trim()).join(`|`),
@@ -31,18 +35,21 @@ function mailAddrCheck(addr, removeDiacritics) {
     [doubleDot]: dl => `${dl} contains consecutive dots (.)`,
     [insufficientDomain]: dl => `${dl} part should be at least a subdomain of a top level domain`,
     [noValidStartChr]: dl => `${dl} does not start with a valid character`,
-    [invalidChrs]: dl => domain => `[${invalidChrsFound[dl](domain)}] Not allowed in ${dl}`,
+    [invalidChrs]: dl => domainOrLocal => `${dl} [${invalidChrsFound[dl](domainOrLocal)}] not allowed in ${dl}`,
   };
   const createCheck = (err, msg, str2Check) => err && {
     error: err,
-    get message() { return this.error && msg.constructor === Function ? msg(str2Check) : msg; } } || {};
+    get message() {
+      return this.error && msg.constructor === Function ? msg(str2Check) : msg;
+    }
+  } || {};
   // full address error checks
   let result = Object.entries({
     [noParam]: createCheck(addr === `invalid@input.info`, msgFactory[noParam]()),
     [moreThanOneAt]: createCheck(addrSplitted.length > 2, msgFactory[moreThanOneAt]()),
     [noDomain]: createCheck(!domain, msgFactory[noDomain]())
-  }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, [] );
-  const fatal =  result.length > 0;
+  }).reduce((acc, [, value]) => value.error ? [...acc, value] : acc, []);
+  const fatal = result.length > 0;
   // nothing fatal occured, so more checks
   if (!fatal) {
     // local part error checks if applicable
@@ -52,7 +59,7 @@ function mailAddrCheck(addr, removeDiacritics) {
         [doubleDot]: createCheck(REs[doubleDot].test(localPart), msgFactory[doubleDot](l)),
         [noValidStartChr]: createCheck(!REs[noValidStartChr].test(localPart), msgFactory[noValidStartChr](l)),
         [invalidChrs]: createCheck(REs[invalidChrs][l].test(localPart), msgFactory[invalidChrs](l), localPart)
-      }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, result ) : result;
+      }).reduce((acc, [, value]) => value.error ? [...acc, value] : acc, result) : result;
     // domain error checks (if applicable)
     result = domain
       ? Object.entries({
@@ -61,15 +68,16 @@ function mailAddrCheck(addr, removeDiacritics) {
         [insufficientDomain]: createCheck(domain.split(/\./).length < 2, msgFactory[insufficientDomain](d)),
         [noValidStartChr]: createCheck(!REs[noValidStartChr].test(domain), msgFactory[noValidStartChr](d)),
         [invalidChrs]: createCheck(REs[invalidChrs][d].test(domain), msgFactory[invalidChrs](d), domain),
-      }).reduce( (acc, [, value]) => value.error ? [...acc, value] : acc, result ) : result;
+      }).reduce((acc, [, value]) => value.error ? [...acc, value] : acc, result) : result;
   }
 
   let nErrors = fatal ? `fatal error(s) occured` : `${result.length} ${result.length < 2 ? `error` : `errors`}`;
 
   return result.length < 1
-    ? { error: false, validatedAddress: removeDiacritics ? cleanDiacritics(addr) : addr, }
-    : { error: true,
+    ? {error: false, validatedAddress: removeDiacritics ? cleanDiacritics(addr) : addr,}
+    : {
+      error: true,
       validatedAddress: `${removeDiacritics ? cleanDiacritics(addr) : addr} - ${nErrors}:`,
-      errors: result.map( v => v.message ) };
-};
-export default mailAddrCheck;
+      errors: result.map(v => v.message)
+    };
+}
