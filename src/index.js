@@ -25,8 +25,8 @@ function validateEMailAddress(addr, removeDiacritics) {
     },
   };
   const invalidChrsFound = {
-    [d]: str => str.match(RegExpStore[invalidChrs][d]).map(v => RegExpStore[space].test(v) ? spacing : v.trim()).join(`|`),
-    [l]: str => str.match(RegExpStore[invalidChrs][l]).map(v => RegExpStore[space].test(v) ? spacing : v.trim()).join(`|`),
+    [d]: str => [...new Set(str.match(RegExpStore[invalidChrs][d]))].map(v => RegExpStore[space].test(v) ? spacing : v.trim()).join(`|`),
+    [l]: str => [...new Set(str.match(RegExpStore[invalidChrs][l]))].map(v => RegExpStore[space].test(v) ? spacing : v.trim()).join(`|`),
   };
   const msgFactory = {
     [noParam]: () => `Please provide an email address`,
