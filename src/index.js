@@ -24,11 +24,9 @@ function validateEMailAddress(addr, removeDiacritics) {
       [d]: /[^\p{L}_\-.]/ui
     },
   };
-  // debug.tmp
-  console.log(RegExpStore);
   const invalidChrsFound = {
     [d]: str => str.match(RegExpStore[invalidChrs][d]).map(v => RegExpStore[space].test(v) ? spacing : v.trim()).join(`|`),
-    [l]: str => str.match(RegExpStore[invalidChrs][d]).map(v => RegExpStore[space].test(v) ? spacing : v.trim()).join(`|`),
+    [l]: str => str.match(RegExpStore[invalidChrs][l]).map(v => RegExpStore[space].test(v) ? spacing : v.trim()).join(`|`),
   };
   const msgFactory = {
     [noParam]: () => `Please provide an email address`,
