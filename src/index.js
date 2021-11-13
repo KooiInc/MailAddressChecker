@@ -14,7 +14,7 @@ function validateEMailAddress(addr, removeDiacritics) {
       `insufficientDomain|noValidStartChr|invalidChrs|noParam|space|` +
       `space, tab or new line`)
       .split(`|`);
-  const REs = {
+  const RegExpStore = {
     [startsOrEndsWithDot]: /\.$|^\./,
     [doubleDot]: /\.{2,}/g,
     [noValidStartChr]: /^[\p{L}]/ui,
@@ -24,9 +24,11 @@ function validateEMailAddress(addr, removeDiacritics) {
       [d]: /[^\p{L}_\-.]/ui
     },
   };
+  // debug.tmp
+  console.log(RegExpStore);
   const invalidChrsFound = {
-    [d]: str => str.match(REs[invalidChrs][d]).map(v => REs[space].test(v) ? spacing : v.trim()).join(`|`),
-    [l]: str => str.match(REs[invalidChrs][d]).map(v => REs[space].test(v) ? spacing : v.trim()).join(`|`),
+    [d]: str => str.match(RegExpStore[invalidChrs][d]).map(v => RegExpStore[space].test(v) ? spacing : v.trim()).join(`|`),
+    [l]: str => str.match(RegExpStore[invalidChrs][d]).map(v => RegExpStore[space].test(v) ? spacing : v.trim()).join(`|`),
   };
   const msgFactory = {
     [noParam]: () => `Please provide an email address`,
@@ -42,7 +44,9 @@ function validateEMailAddress(addr, removeDiacritics) {
     error: err,
     errors: [],
     get message() {
-      this.error && this.errors.push(msg.constructor === Function ? msg(str2Check) : msg);
+      if (this.error) {
+        this.errors.push(msg.constructor === Function ? msg(str2Check) : msg);
+      }
       return this.errors;
     }
   } || {};
@@ -58,19 +62,19 @@ function validateEMailAddress(addr, removeDiacritics) {
     // local part error checks if applicable
     result = localPart
       ? Object.entries({
-        [startsOrEndsWithDot]: createCheck(REs[startsOrEndsWithDot].test(localPart), msgFactory[startsOrEndsWithDot](l)),
-        [doubleDot]: createCheck(REs[doubleDot].test(localPart), msgFactory[doubleDot](l)),
-        [noValidStartChr]: createCheck(!REs[noValidStartChr].test(localPart), msgFactory[noValidStartChr](l)),
-        [invalidChrs]: createCheck(REs[invalidChrs][l].test(localPart), msgFactory[invalidChrs](l), localPart)
+        [startsOrEndsWithDot]: createCheck(RegExpStore[startsOrEndsWithDot].test(localPart), msgFactory[startsOrEndsWithDot](l)),
+        [doubleDot]: createCheck(RegExpStore[doubleDot].test(localPart), msgFactory[doubleDot](l)),
+        [noValidStartChr]: createCheck(!RegExpStore[noValidStartChr].test(localPart), msgFactory[noValidStartChr](l)),
+        [invalidChrs]: createCheck(RegExpStore[invalidChrs][l].test(localPart), msgFactory[invalidChrs](l), localPart)
       }).reduce((acc, [, value]) => value.error ? [...acc, value] : acc, result) : result;
     // domain error checks (if applicable)
     result = domain
       ? Object.entries({
-        [startsOrEndsWithDot]: createCheck(REs[startsOrEndsWithDot].test(domain), msgFactory[startsOrEndsWithDot](d)),
-        [doubleDot]: createCheck(REs[doubleDot].test(domain), msgFactory[doubleDot](d)),
+        [startsOrEndsWithDot]: createCheck(RegExpStore[startsOrEndsWithDot].test(domain), msgFactory[startsOrEndsWithDot](d)),
+        [doubleDot]: createCheck(RegExpStore[doubleDot].test(domain), msgFactory[doubleDot](d)),
         [insufficientDomain]: createCheck(domain.split(/\./).length < 2, msgFactory[insufficientDomain](d)),
-        [noValidStartChr]: createCheck(!REs[noValidStartChr].test(domain), msgFactory[noValidStartChr](d)),
-        [invalidChrs]: createCheck(REs[invalidChrs][d].test(domain), msgFactory[invalidChrs](d), domain),
+        [noValidStartChr]: createCheck(!RegExpStore[noValidStartChr].test(domain), msgFactory[noValidStartChr](d)),
+        [invalidChrs]: createCheck(RegExpStore[invalidChrs][d].test(domain), msgFactory[invalidChrs](d), domain),
       }).reduce((acc, [, value]) => value.error ? [...acc, value] : acc, result) : result;
   }
 
