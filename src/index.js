@@ -1,5 +1,6 @@
 // noinspection JSUnusedGlobalSymbols,DuplicatedCode
 // ^ for webstorm, may be removed
+// use ./lib/bundle.js for browser
 const cleanDiacritics = require("./diacriticReplacer.js");
 module.exports = validateEMailAddress;
 
@@ -39,8 +40,9 @@ function validateEMailAddress(addr, removeDiacritics) {
   };
   const createCheck = (err, msg, str2Check) => err && {
     error: err,
+    errors: [],
     get message() {
-      return this.error && msg.constructor === Function ? msg(str2Check) : msg;
+      return this.error && this.errors.push(msg.constructor === Function ? msg(str2Check) : msg);
     }
   } || {};
   // full address error checks
@@ -75,9 +77,9 @@ function validateEMailAddress(addr, removeDiacritics) {
 
   return result.length < 1
     ? {error: false, validatedAddress: removeDiacritics ? cleanDiacritics(addr) : addr,}
-    : {
-      error: true,
-      validatedAddress: `${removeDiacritics ? cleanDiacritics(addr) : addr} - ${nErrors}:`,
-      errors: result.map(v => v.message)
+      : {
+          error: true,
+          validatedAddress: `${removeDiacritics ? cleanDiacritics(addr) : addr} - ${nErrors}:`,
+          errors: result.map(v => v.errors).flat()
     };
 }
