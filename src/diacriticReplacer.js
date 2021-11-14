@@ -10,6 +10,7 @@ function replacer(text) {
   return replace(text);
 }
 
+// Todo: create specific base(s) for languages (e.g. german ö => oe, not o)
 function getDiacrits() {
   const diacriticsMapped = {};
   const mappings = [
