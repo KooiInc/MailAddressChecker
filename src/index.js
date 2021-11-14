@@ -32,11 +32,11 @@ function validateEMailAddress(addr, removeDiacritics) {
     [noParam]: () => `Please provide an email address`,
     [moreThanOneAt]: () => `More than one @ in given address`,
     [noDomain]: () => `No recognizable domain part (lacking domein/@ or too many @ in given address)`,
-    [startsOrEndsWithDot]: dl => `${dl} can't start or end with a dot (.)`,
-    [doubleDot]: dl => `${dl} contains consecutive dots (.)`,
-    [insufficientDomain]: dl => `${dl} part should be at least a subdomain of a top level domain`,
-    [noValidStartChr]: dl => `${dl} does not start with a valid character`,
-    [invalidChrs]: dl => domainOrLocal => `${dl} [${invalidChrsFound[dl](domainOrLocal)}] not allowed`,
+    [startsOrEndsWithDot]: dl => `${dl}: can't start or end with a dot (.)`,
+    [doubleDot]: dl => `${dl}: contains consecutive dots (.)`,
+    [insufficientDomain]: dl => `${dl}: part should be at least a subdomain of a top level domain`,
+    [noValidStartChr]: dl => `${dl}: does not start with a valid character`,
+    [invalidChrs]: dl => domainOrLocal => `${dl}: [${invalidChrsFound[dl](domainOrLocal)}] not allowed`,
   };
   const createCheck = (err, msg, str2Check) => err && {
     error: err,
