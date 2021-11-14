@@ -42,10 +42,11 @@ function validateEMailAddress(addr, removeDiacritics) {
     error: err,
     errors: [],
     get message() {
-      if (this.error) {
-        this.errors.push(msg.constructor === Function ? msg(str2Check) : msg);
-      }
-      return this.errors;
+      return this.error && msg.constructor === Function ? msg(str2Check) : msg;
+      // if (this.error) {
+      //   this.errors.push(msg.constructor === Function ? msg(str2Check) : msg);
+      // }
+      // return this.errors;
     }
   } || {};
   // full address error checks
@@ -83,6 +84,6 @@ function validateEMailAddress(addr, removeDiacritics) {
       : {
           error: true,
           validatedAddress: `${removeDiacritics ? cleanDiacritics(addr) : addr} - ${nErrors}:`,
-          errors: result.map(v => v.message).flat()
+          errors: result.map(v => v.message),
     };
 }
