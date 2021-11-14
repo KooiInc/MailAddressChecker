@@ -52,7 +52,7 @@ function validateEMailAddress(addr, removeDiacritics) {
   let result = Object.entries({
     [noParam]: createCheck(addr === `n/a`, msgFactory[noParam]()),
     [moreThanOneAt]: createCheck(addrSplitted.length > 2, msgFactory[moreThanOneAt]()),
-    [noDomain]: createCheck(!domain, msgFactory[noDomain]())
+    [noDomain]: createCheck(addr !== `n/a` && !domain, msgFactory[noDomain]())
   }).reduce((acc, [, value]) => value.error ? [...acc, value] : acc, []);
   const fatal = result.length > 0;
   // nothing fatal occured, so more checks
