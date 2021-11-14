@@ -5,7 +5,7 @@ const cleanDiacritics = require("./diacriticReplacer.js");
 module.exports = validateEMailAddress;
 
 function validateEMailAddress(addr, removeDiacritics) {
-  addr = addr && addr.length && addr.trim && addr.trim() || ``;
+  addr = addr && addr.length && addr.trim && addr.trim() || `n/a`;
   const addrSplitted = addr.split(`@`);
   const [localPart, domain] = addrSplitted;
   const [d, l, moreThanOneAt, noDomain, startsOrEndsWithDot, doubleDot,
@@ -50,7 +50,7 @@ function validateEMailAddress(addr, removeDiacritics) {
   } || {};
   // full address error checks
   let result = Object.entries({
-    [noParam]: createCheck(!addr, msgFactory[noParam]()),
+    [noParam]: createCheck(addr === `n/a`, msgFactory[noParam]()),
     [moreThanOneAt]: createCheck(addrSplitted.length > 2, msgFactory[moreThanOneAt]()),
     [noDomain]: createCheck(!domain, msgFactory[noDomain]())
   }).reduce((acc, [, value]) => value.error ? [...acc, value] : acc, []);
