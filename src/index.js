@@ -41,13 +41,7 @@ function validateEMailAddress(addr, removeDiacritics) {
   const createCheck = (err, msg, str2Check) => err && {
     error: err,
     errors: [],
-    get message() {
-      return this.error && msg.constructor === Function ? msg(str2Check) : msg;
-      // if (this.error) {
-      //   this.errors.push(msg.constructor === Function ? msg(str2Check) : msg);
-      // }
-      // return this.errors;
-    }
+    get message() { return this.error && msg.constructor === Function ? msg(str2Check) : msg; }
   } || {};
   // full address error checks
   let result = Object.entries({
