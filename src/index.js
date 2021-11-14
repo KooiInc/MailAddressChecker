@@ -29,7 +29,7 @@ function validateEMailAddress(addr, removeDiacritics) {
     [l]: str => [...new Set(str.match(RegExpStore[invalidChrs][l]))].map(v => RegExpStore[space].test(v) ? spacing : v.trim()).join(`|`),
   };
   const msgFactory = {
-    [noParam]: () => `Please provide an email address`,
+    [noParam]: () => `Please provide a email address (string, e.g. 's.one@domain.com')`,
     [moreThanOneAt]: () => `More than one @ in given address`,
     [noDomain]: () => `No recognizable domain part (lacking domein/@ or too many @ in given address)`,
     [startsOrEndsWithDot]: dl => `${dl}: can't start or end with a dot (.)`,
