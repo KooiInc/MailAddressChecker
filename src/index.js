@@ -50,7 +50,7 @@ function validateEMailAddress(addr, removeDiacritics) {
   } || {};
   // full address error checks
   let result = Object.entries({
-    [noParam]: createCheck(addr === `invalid@input.info`, msgFactory[noParam]()),
+    [noParam]: createCheck(addr === `No or invalid parameters`, msgFactory[noParam]()),
     [moreThanOneAt]: createCheck(addrSplitted.length > 2, msgFactory[moreThanOneAt]()),
     [noDomain]: createCheck(!domain, msgFactory[noDomain]())
   }).reduce((acc, [, value]) => value.error ? [...acc, value] : acc, []);
