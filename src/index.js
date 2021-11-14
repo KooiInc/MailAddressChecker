@@ -34,7 +34,7 @@ function validateEMailAddress(addr, removeDiacritics) {
     [noDomain]: () => `No recognizable domain part (lacking domein/@ or too many @ in given address)`,
     [startsOrEndsWithDot]: dl => `${dl}: can't start or end with a dot (.)`,
     [doubleDot]: dl => `${dl}: contains consecutive dots (.)`,
-    [insufficientDomain]: dl => `${dl}: part should be at least a subdomain of a top level domain`,
+    [insufficientDomain]: dl => `${dl}: should be at least a subdomain of a top level domain (e.g. .com, .to)`,
     [noValidStartChr]: dl => `${dl}: does not start with a valid character`,
     [invalidChrs]: dl => domainOrLocal => `${dl}: [${invalidChrsFound[dl](domainOrLocal)}] not allowed`,
   };
