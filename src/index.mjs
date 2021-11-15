@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols,DuplicatedCode
 // ^ for webstorm, may be removed
 // use ./lib/bundle.js for browser
-const cleanDiacritics = require("./diacriticReplacer.mjs");
+import cleanDiacritics from "./diacriticReplacer.mjs";
 export default validateEMailAddress;
 
 function validateEMailAddress(addr, removeDiacritics) {
