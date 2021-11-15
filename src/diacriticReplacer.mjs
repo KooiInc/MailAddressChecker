@@ -1,6 +1,6 @@
 //export default clean;
 const mappings = getDiacrits();
-module.exports = replacer;
+export default replacer;
 
 function replacer(text) {
   const replace = str2Convert => str2Convert

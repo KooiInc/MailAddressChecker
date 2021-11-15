@@ -2,7 +2,8 @@
   "name": "mailaddresschecker",
   "version": "0.9.2",
   "description": "A small library to check mail address validity",
-  "main": "MailAddresChecker.js",
+  "main": "MailAddresChecker.mjs",
+  "type": "module",
   "devDependencies": {
     "tinyify": "^3.0.0"
   },
