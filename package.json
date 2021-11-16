@@ -5,7 +5,8 @@
   "main": "src/index.mjs",
   "type": "module",
   "devDependencies": {
-    "tinyify": "^3.0.0"
+    "tinyify": "^3.0.0",
+    "browserify": "^17.0.0"
   },
   "keywords": [
     "email",
@@ -14,7 +15,4 @@
   ],
   "author": "KooiInc",
   "license": "ISC",
-  "dependencies": {
-    "browserify": "^17.0.0"
-  }
 }
