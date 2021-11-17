@@ -3,10 +3,8 @@
   "version": "0.9.2",
   "description": "A small library to check mail address validity",
   "main": "src/index.mjs",
-  "type": "module",
   "devDependencies": {
-    "tinyify": "^3.0.0",
-    "browserify": "^17.0.0"
+    "esbuild": "^0.13.13"
   },
   "keywords": [
     "email",
@@ -14,5 +12,5 @@
     "address creation"
   ],
   "author": "KooiInc",
-  "license": "ISC",
+  "license": "ISC"
 }
