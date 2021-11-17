@@ -1,4 +1,3 @@
-//export default clean;
 const mappings = getDiacrits();
 export default replacer;
 
