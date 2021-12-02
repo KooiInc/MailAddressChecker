@@ -7,6 +7,6 @@ The [bundled version](https://kooiinc.github.io/MailAddressChecker/lib/bundle.js
 ## Examples on Stackblitz.com
 
 - [a nodejs example](https://stackblitz.com/edit/node-wcpuam?file=index.js).
-- [a browser script example](https://stackblitz.com/edit/web-platform-kabila?file=index.html).
+- [a browser script example](https://stackblitz.com/edit/web-platform-xcpv4a?file=script.js).
 
 <a target="_blank" href="https://en.wikipedia.org/wiki/Email_address">Also see wikipedia</a> for email address requirements. The requirements in this checker are an interpretation: feel free to fork the MailAddressChecker repository to change them to your specific needs.
