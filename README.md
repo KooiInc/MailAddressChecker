@@ -2,7 +2,7 @@
 
 A small library to check the validity of an email address string. The check returns an array of detailed errors if something did not add up in the provided email address. It can optionally convert diacritics in the result(ing e-mailaddress) to plain ascii (e.g. ë = e, Ù = U). 
 
-The [bundled version](https://kooiinc.github.io/MailAddressChecker/lib/bundle.js) can either be used as nodejs module (`require emailValidator from './lib/bundle.js'`) or as browser script (`<script src="./lib/bundle.js"></script>`), providing a global method called `emailValidator`.
+The [bundled version](https://kooiinc.github.io/MailAddressChecker/lib/bundle.js) can either be used as nodejs module (`require emailValidator from './lib/bundle.js'`) or as browser script module.
 
 ## Examples on Stackblitz.com
 
