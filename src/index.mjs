@@ -72,12 +72,12 @@ function validateEMailAddress(addr, removeDiacritics) {
   }
 
   let nErrors = fatal ? `fatal error(s) occured` : `${result.length} ${result.length < 2 ? `error` : `errors`}`;
-
+  const handleDiacritics = addr => addr.split(`@`).map( (v, i) => i < 1 ? cleanDiacritics(v) : v ).join(`@`);
   return result.length < 1
-    ? {error: false, validatedAddress: removeDiacritics ? cleanDiacritics(addr) : addr,}
+    ? {error: false, validatedAddress: removeDiacritics ? handleDiacritics(addr) : addr,}
       : {
           error: true,
-          validatedAddress: `${removeDiacritics ? cleanDiacritics(addr) : addr} - ${nErrors}:`,
+          validatedAddress: `${removeDiacritics ? handleDiacritics(addr) : addr} - ${nErrors}:`,
           errors: result.map(v => v.message),
     };
 }
