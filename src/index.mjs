@@ -21,7 +21,7 @@ function validateEMailAddress(addr, removeDiacritics) {
     [space]: /\s/,
     [invalidChrs]: {
       [l]: /[^\p{L}~+_.#\-0-9|=!]/gui,
-      [d]: /[^\p{L}_\-.]/gui
+      [d]: /[^\p{L}\-.[0-9]/gui
     },
   };
   const invalidChrsFound = {
