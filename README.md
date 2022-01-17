@@ -6,7 +6,10 @@ The [bundled version](https://kooiinc.github.io/MailAddressChecker/lib/bundle.js
 
 ## Examples on Stackblitz.com
 
-- [a nodejs example](https://stackblitz.com/edit/node-wcpuam?file=index.js).
-- [a browser script example](https://stackblitz.com/edit/web-platform-xcpv4a?file=script.js).
+- [A nodejs example](https://stackblitz.com/edit/node-wcpuam?file=index.js).
+- [A browser script example](https://stackblitz.com/edit/web-platform-xcpv4a?file=script.js).
+
+# Docker
+- A small [docker container](https://hub.docker.com/r/kooiinc/emailcheckserver) (nodejs server using this library).
 
 <a target="_blank" href="https://en.wikipedia.org/wiki/Email_address#Validation_and_verification">Also see wikipedia</a> for (rfc links to) email address requirements. The requirements in this checker are an interpretation: feel free to fork the MailAddressChecker repository to change them to your specific needs.
