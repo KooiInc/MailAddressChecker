@@ -50,7 +50,7 @@ function validateEMailAddress(addr, removeDiacritics) {
     [noDomain]: createCheck(addr !== `n/a` && !domain, msgFactory[noDomain]())
   }).reduce((acc, [, value]) => value.error ? [...acc, value] : acc, []);
   const fatal = result.length > 0;
-  // nothing fatal occured, so more checks
+  // nothing fatal occurred, so more checks
   if (!fatal) {
     // local part error checks if applicable
     result = localPart
@@ -71,7 +71,7 @@ function validateEMailAddress(addr, removeDiacritics) {
       }).reduce((acc, [, value]) => value.error ? [...acc, value] : acc, result) : result;
   }
 
-  let nErrors = fatal ? `fatal error(s) occured` : `${result.length} ${result.length < 2 ? `error` : `errors`}`;
+  let nErrors = fatal ? `fatal error(s)` : `${result.length} ${result.length < 2 ? `error` : `errors`}`;
   const handleDiacritics = addr => addr.split(`@`).map( (v, i) => i < 1 ? cleanDiacritics(v) : v ).join(`@`);
   return result.length < 1
     ? {error: false, validatedAddress: removeDiacritics ? handleDiacritics(addr) : addr,}
