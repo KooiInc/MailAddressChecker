@@ -6,8 +6,7 @@ export default validateEMailAddress;
 
 function validateEMailAddress(addr, removeDiacritics) {
   addr = addr && addr.length && addr.trim && addr.trim() || `n/a`;
-  const addrSplitted = addr.split(`@`);
-  const [localPart, domain] = addrSplitted;
+  const [localPart, domain] = addr.split(`@`);
   const [d, l, moreThanOneAt, noDomain, startsOrEndsWithDot, doubleDot,
     insufficientDomain, noValidStartChr, invalidChrs, noParam, space, spacing] =
     (`Domain|Name part|moreThanOneAt|noDomain|startsOrEndsWithDot|doubleDot|` +
@@ -17,7 +16,7 @@ function validateEMailAddress(addr, removeDiacritics) {
   const RegExpStore = {
     [startsOrEndsWithDot]: /\.$|^\./,
     [doubleDot]: /\.{2,}/g,
-    [noValidStartChr]: /^[\p{L}]/ui,
+    [noValidStartChr]: /^\p{L}/ui,
     [space]: /\s/,
     [invalidChrs]: {
       [l]: /[^\p{L}~+_.#\-0-9|=!]/gui,
@@ -46,7 +45,7 @@ function validateEMailAddress(addr, removeDiacritics) {
   // full address error checks
   let result = Object.entries({
     [noParam]: createCheck(addr === `n/a`, msgFactory[noParam]()),
-    [moreThanOneAt]: createCheck(addrSplitted.length > 2, msgFactory[moreThanOneAt]()),
+    [moreThanOneAt]: createCheck(addr.split(`@`).length > 2, msgFactory[moreThanOneAt]()),
     [noDomain]: createCheck(addr !== `n/a` && !domain, msgFactory[noDomain]())
   }).reduce((acc, [, value]) => value.error ? [...acc, value] : acc, []);
   const fatal = result.length > 0;
