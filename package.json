@@ -1,12 +1,9 @@
 {
   "name": "mailaddresschecker",
-  "version": "0.9.6",
+  "version": "0.9.8",
   "description": "A small library to check mail address validity",
   "type": "module",
-  "main": "src/index.mjs",
-  "devDependencies": {
-    "esbuild": "latest"
-  },
+  "main": "src/index.js",
   "keywords": [
     "email",
     "address validation",
