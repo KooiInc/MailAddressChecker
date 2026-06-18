@@ -1,6 +1,6 @@
-[![](https://deno.bundlejs.com/badge?q=mailaddresschecker@0.9.8)](https://bundlejs.com/?q=mailaddresschecker@0.9.8)
+[![](https://deno.bundlejs.com/badge?q=mailaddresschecker@0.9.9)](https://bundlejs.com/?q=mailaddresschecker@0.9.9)
 [![](https://img.shields.io/npm/v/mailaddresschecker.svg?labelColor=cb3837&logo=npm&color=dcfdd9)](https://www.npmjs.com/package/mailaddresschecker)
-[![dependencies](https://depx.co/api/badge/jqx-es)](https://depx.co/pkg/mailaddresschecker)
+[![dependencies](https://depx.co/api/badge/mailaddresschecker)](https://depx.co/pkg/mailaddresschecker)
 
 # MailAddressChecker
 
@@ -13,7 +13,6 @@ The [bundled version](https://kooiinc.github.io/MailAddressChecker/lib/bundle.js
 - [A nodejs example](https://stackblitz.com/edit/node-wcpuam?file=index.js).
 - [A browser script example](https://stackblitz.com/edit/web-platform-xcpv4a?file=script.js).
 
-# Docker
-- A small [docker image](https://hub.docker.com/r/kooiinc/emailcheckserver) (nodejs server using this library).
+# E-mail address requirement information
 
-<a target="_blank" href="https://en.wikipedia.org/wiki/Email_address#Validation_and_verification">Also see wikipedia</a> for (rfc links to) email address requirements. The requirements in this checker are an _interpretation_: feel free to fork the MailAddressChecker repository to change them to your specific needs.
+<a target="_blank" href="https://en.wikipedia.org/wiki/Email_address#Validation_and_verification">See wikipedia</a> for (rfc links to) email address requirements. The requirements in this checker are an _interpretation_: feel free to fork the MailAddressChecker repository to change them to your specific needs.
