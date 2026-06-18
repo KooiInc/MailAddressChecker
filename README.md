@@ -1,3 +1,7 @@
+[![](//deno.bundlejs.com/?q=mailaddresschecker@latest&badge)](https://bundlejs.com/?q=mailaddresschecker)
+[![](https://img.shields.io/npm/v/mailaddresschecker.svg?labelColor=cb3837&logo=npm&color=dcfdd9)](https://www.npmjs.com/package/mailaddresschecker)
+[![dependencies](https://depx.co/api/badge/jqx-es)](https://depx.co/pkg/mailaddresschecker)
+
 # MailAddressChecker
 
 A small library to check the validity of an email address string. The check returns an array of detailed errors if something did not add up in the provided email address. It can optionally convert diacritics in the result(ing e-mailaddress) to plain ascii (e.g. ë = e, Ù = U). 
