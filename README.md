@@ -1,4 +1,4 @@
-[![](//deno.bundlejs.com/?q=mailaddresschecker@latest&badge)](https://bundlejs.com/?q=mailaddresschecker)
+[![](https://deno.bundlejs.com/badge?q=mailaddresschecker@0.9.8)](https://bundlejs.com/?q=mailaddresschecker@0.9.8)
 [![](https://img.shields.io/npm/v/mailaddresschecker.svg?labelColor=cb3837&logo=npm&color=dcfdd9)](https://www.npmjs.com/package/mailaddresschecker)
 [![dependencies](https://depx.co/api/badge/jqx-es)](https://depx.co/pkg/mailaddresschecker)
 
