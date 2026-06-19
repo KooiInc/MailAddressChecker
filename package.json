@@ -1,6 +1,6 @@
 {
   "name": "mailaddresschecker",
-  "version": "0.9.9",
+  "version": "0.1.0",
   "description": "A small library to check mail address validity",
   "type": "module",
   "main": "src/index.js",
